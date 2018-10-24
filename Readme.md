@@ -15,9 +15,9 @@
 ### Gitflow
 ![Gitflow diagram](https://stxnext.com/media/filer_public_thumbnails/filer_public/d4/41/d4414c91-483b-4904-9c1b-fc92c899678c/gitflow.png__1011x520_q85_crop_subsampling-2_upscale.png "Gitflow diagram")
 
-## Git 
+## 1 : Git 
 Toute la partie Git du tp doit être réalisée individuellement
-### 0 : Création de compte Github
+### 1.0 : Création de compte Github
 Aller sur [Github](https://github.com/) et se créer un compte si ce n'est pas déjà la cas.
 
 ### 1.1 : Forker un repo
@@ -40,7 +40,7 @@ Depuis la page de votre fork du projet Github, réaliser une pull request pour p
 
 Pour plus d'aide sur les pull requests voir la [documentation officielle](https://help.github.com/articles/about-pull-requests/)
 
-### 1.5 : Naviguer des les logs
+### 1.5 : Naviguer dans les logs
 Sur votre copie locale, afficher les logs des commits précédents.
 
 Faites attention au fait que tout est loggué depuis le début du projet. Vous pouvez trouver les messages, les dates mais aussi les auteurs des commits passés.
@@ -48,6 +48,34 @@ Faites attention au fait que tout est loggué depuis le début du projet. Vous p
 ### 1.? : WAAAAAAAAARPZOOOOOOOOOOONE
 Question Bonus: A l'aide de l'outil utilisé dans la question précédente, trouver la couleur de mon chat ?!! 
 
+> HELP : Si vous ne savez pas ou entrer la réponse, c'est que vous n'avez pas cherché assez loin ^^
+
+### 1.6 : Lister les branches
+Lister les branches du repo
+
+Est-ce que toutes les branches vous paraissents normales ? 
+Y a t-il une branche qui retient votre attention ? Si oui, noter le nom de cette branche dans le fichier answers et se placer dessus (checkout).
+
+### 1.7 : Créer une branche
+Créer une branche à partir de la branche trouvée ci-dessus. La branche à créer doit s'appeler "resolve/" suivi de la première lettre de votre prénom puis du nom de famille en minuscule.
+
+> Ex Arthur Mauvezin --> resolve/amauvezin
+
+### 1.8 : Apporter votre pière à l'édifice
+Placez vous sur votre branche resolve/... (toujours checkout), puis répondre aux questions contenues dans le fichier enigma.
+Après avoir répondu, commiter les changements sur la branche resolve.
+
+### 1.9 : Merger la branche
+Merger la branche resolve sur la branch master de votre repo.
+
+Vous devez normalement avoir un fichier answers et un fichier enigma dans la branch master.
+
+### 1.10 : Pusher les changements
+Pusher tous vos changements sur votre repo.
+
+## 2 : Gitflow
+
+### 
 
 
 
