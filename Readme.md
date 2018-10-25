@@ -219,3 +219,63 @@ Ajouter un stage de run du container Docker capable de lancer l'image précédem
 ```bash
 docker run my-app:$BUILD_NUMBER
 ```
+
+### 2.8 : Afficher les résultats des tests
+Ajouter le code suivant après la fermeture de la balise stages dans le jenkinsfile pour activer l'affichage des résultats de tests par rapport aux exécutions précédentes.
+
+```groovy
+stages {
+	...
+  }
+
+  post {
+    always {
+      junit 'target/surefire-reports/*.xml'
+    }
+  }
+```
+
+Après l'ajout de cette balise post, un graph apparaitra en haut à droite de l'écran de visualisation des pipelines permettant de visualiser facilement l'évolution du passage des tests au fur et à mesure des builds.
+
+### 2.9 : Création d'une nouvelle branche
+Le Jenkinsfile est maintenant prêt à exécuter les stages définis en son sein quelles que soient les branches qui soient créées. 
+
+Créer un branch feature/test-build à partir de la branch develop et constater que le build est automatiquement appliqué sur cette branche.
+
+### 2.10 : Limitation par type de branche
+Bien que Jenkins soit capable d'appliquer le même pipeline quelles que soient les branches, il est possible d'affiner les actions qu'on souhaite réaliser en fonction des branches.
+
+Ainsi, un branche représentant la production n'aura pas les mêmes actions CI/CD qu'un branch représentant une nouvelle feature demandant d'avoir des retours rapides et réguliers.
+
+Pour réaliser cet affinage, il faut ajouter des conditions aux différents stages:
+```groovy
+// Pour s'exécuter uniquement sur la branche master
+stage('Stage name') {
+      when {
+        branch 'master';
+      }
+      steps {
+        ...
+      }
+    }
+
+// Pour s'exécuter sur la branches master et develop
+stage('Stage name') {
+      when {
+        anyOf {
+          branch 'master';
+          branch 'develop'
+        }
+      }
+      steps {
+        ...
+      }
+    }
+```
+
+Modifier votre Jenkinsfile pour builder l'image Docker uniquement sur les branches master et develop, et pour lancer les container Docker uniquement sur la branche master.
+
+### 2.11 : Conclusion
+Vous pouvez maintenant créer plusieurs branches features et vous apercevoir que ces branches ne se verront appliquées que les étapes de build et test.
+
+Toute cette configuration permet d'avoir un système de validation au plus près sans perdre de temps sur les feedback rapides attendu notamment dans le dev.
