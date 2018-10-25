@@ -4,6 +4,8 @@
 Le TP s'appuie sur [un autre repo Github](https://github.com/cours-ece/simple-java-hello-world).
 Les réponses aux questions posées dans cet énoncé sont attendues dans un fichier **answers.md** situé dans le repo mentionné ci-dessus.
 
+Le TP doit être réalisé individuellement
+
 ## Rappels
 ### Git
 * Repository
@@ -26,7 +28,7 @@ Les réponses aux questions posées dans cet énoncé sont attendues dans un fic
 * Pipeline: Configuration as code
 
 ## 1 : Git 
-Toute la partie Git du tp doit être réalisée individuellement
+
 ### 1.0 : Création de compte Github
 Aller sur [Github](https://github.com/) et se créer un compte si ce n'est pas déjà la cas.
 
