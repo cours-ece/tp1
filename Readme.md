@@ -17,6 +17,10 @@
 ### Gitflow
 ![Gitflow diagram](https://stxnext.com/media/filer_public_thumbnails/filer_public/d4/41/d4414c91-483b-4904-9c1b-fc92c899678c/gitflow.png__1011x520_q85_crop_subsampling-2_upscale.png "Gitflow diagram")
 
+### Jenkins
+* CI/CD
+* Pipeline: Configuration as code
+
 ## 1 : Git 
 Toute la partie Git du tp doit être réalisée individuellement
 ### 1.0 : Création de compte Github
@@ -147,7 +151,71 @@ Les identifiants sont normalement créés pour tout le monde en respectant:
 
 > Ex Arthure Mauvezin --> amauvezin/amauvezin
 
-### 2.3 : Création d'un Multibranch Pipeline
-Jenkins apporte un type d'objet appelé Multibranch Pipeline. Cet objet permet à Jenkins de
+### 2.3 : Point sur les outils
+Jenkins permet la définition des tâches à effectuer à travers l'intermédiaire de fichiers descripteur de pipelines d'execution appelés Jenkinsfile.
+
+Pour avoir un aperçu du fonctionement des Pipelines Jenkins, [voir l'introduction](https://jenkins.io/doc/book/pipeline/).
+Pour plus de documentation sur la syntaxe des Jenkinsfile, voir [la documentation officielle](https://jenkins.io/doc/book/pipeline/syntax/).
+
+> La documentation ci-dessus sera indispensable pour pouvoir mener à bien le tp.
+
+### 2.4 : Création d'un Multibranch Pipeline
+Jenkins apporte un type d'objet appelé Multibranch Pipeline. Cet objet permet à Jenkins de scanner les différentes branches d'un repository, d'y détecter les changements et d'exécuter des actions différentes en fonction des branches scannées.
+
+De cette façon, il est possible de décorréler des actions à réaliser en intégration d'autres actions à réaliser lors d'un cycle de release vers la production.
+
+Afin d'illustrer le point ci-dessus, sur la [page d'accueil de Jenkins](http://65.52.64.111:8080/), cliquer sur **New Item**.
+
+Dans la fenêtre suivante, entrer un nom pour le pipeline (en l'occurence, entrer première lettre du prénom+nom de famille en minuscule) et choisir le type **Multibranch Pipeline**.
+
+Dans la fenêtre de configuration du Pipeline, dans la section **Branch Sources**, cliquer sur **Add source** et entrer l'url (https) de votre repository git.
+
+> Ex: git@github.com:arthurmauvezin/simple-java-maven-app.git
+
+Dans la section **Scan Multibranch Pipeline Triggers**, cocher **Periodically if not otherwise run** et sélectionner un interval de **1 minute**, puis cliquer sur **Save** en bas de page.
+
+Le pipeline devrait se lancer au bout de quelques minutes et compiler l'application puis afficher un build success.
+
+### 2.5 : Ajout des tests
+Pour l'instant, le build ne fait que compiler le code Java présent dans les sources. Ajouter un stage de test après le build.
+
+HELP: La commande à ajouter au Jenkinsfile est la suivante:
+```bash
+mvn test
+```
+
+> Pour ajouter des étapes de build à Jenkins, il suffit d'éditer votre Jenkinsfile, de le commiter, puis de le pusher. Jenkins va scanner automatiquement les changements apportés au code source toutes les minutes et exécuter son pipeline en conséquence.
 
 
+### 2.6 : Création de l'image Docker
+Jusqu'ici le pipeline build et test l'applicatif mais aucun package n'est ŕealisé ou persisté. Nous allons créer une image Docker afin de persister notre applicatif à la fin du build.
+
+Pour cela, créer un fichier Dockerfile à la racine de votre projet contenant le code suivant:
+```dockerfile
+FROM maven:3.3.9-jdk-8-alpine
+
+COPY target/my-app-1.0-SNAPSHOT.jar /root/my-app-1.0-SNAPSHOT.jar
+
+CMD ["java", "-jar", "/root/my-app-1.0-SNAPSHOT.jar"]
+```
+
+Ajouter un stage de création de l'image Docker au Jenkinsfile
+
+> Attention : Le container à utiliser pour lancer l'étape de build de l'image Docker n'est pas un container maven comme dans les étapes précédentes. Chercher dans le Jenkinsfile peut donner des idées :)
+
+HELP: La commande à lancer dans Jenkins est la suivante:
+```bash
+docker build -t my-app:$BUILD_NUMBER .
+```
+
+> $BUILD_NUMBER est une variable auto incrémentée par Jenkins à chaque build. Elle permet de s'assurer de l'unicité des livrables en cas de rejeux des builds.
+
+
+### 2.7 : Lancement du container Docker
+Après avoir créé l'image Docker, l'intégration continue peut lancer un container à partir de cette image pour valider le livrable.
+
+Ajouter un stage de run du container Docker capable de lancer l'image précédemment créée.
+
+```bash
+docker run my-app:$BUILD_NUMBER
+```
