@@ -8,6 +8,8 @@
 * Commit
 * Push
 * Pull 
+* Branch
+* Merge
 * Fork
 * Pull request
 * [Git Documentation](https://git-scm.com/docs)
@@ -66,43 +68,86 @@ Placez vous sur votre branche resolve/... (toujours checkout), puis répondre au
 Après avoir répondu, commiter les changements sur la branche resolve.
 
 ### 1.9 : Merger la branche
-Merger la branche resolve sur la branch master de votre repo.
+Merger la branche "resolve/..." sur la branch master de votre repo, puis supprimer les branches "resolve/..." et la branche "étrange".
 
 Vous devez normalement avoir un fichier answers et un fichier enigma dans la branch master.
 
 ### 1.10 : Pusher les changements
 Pusher tous vos changements sur votre repo.
 
-## 2 : Gitflow
+### 1.11 : Gitflow
+Lister les branches présentes dans le repo. Au sens Gitflow, à quoi servent ces chacunes de ces branches ? Répondre dans le fichier answers.
 
-### 
+## 2 : CI/CD
+Dans cette deuxième partie du tp, vous devez utiliser le même repo que celui obtenu à la fin de la partie 1.
 
-
-
-## Jenkinsfile example
+### 2.1 : Création du Jenkinsfile
+Créer un fichier de pipeline as code appelé **Jenkinsfile** à la racine de votre projet.
+Y coller le code suivant:
 ```groovy
-// Specify the name of the pod which will be created
-def label = "mypod-${UUID.randomUUID().toString()}"
+// Configuration des images docker utilisées pour les différentes étapes CI/CD
+pipeline {
+  agent {
+    kubernetes {
+      label 'mypod'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: some-label-value
+spec:
+  containers:
+  - name: maven
+    image: maven:alpine
+    command:
+    - cat
+    tty: true
+  - name: docker
+    image: docker
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock
+  volumes:
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
+"""
+    }
+  }
 
-// Specify the configuration of jenkins slave pod which will execute commands
-podTemplate(label: label, containers: [
-    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
-  ],
-  volumes: [
-    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-  ]) {
 
-    // Execute following command in following node
-    node(label) {
+// Configuration à modifier
+  stages {
 
-      // Name of stage in pipeline
-      stage('Run in Docker') {
-        container('docker') {
-          sh 'hostname'
-          sh 'hostname -i'
-          sh 'docker ps'
+    stage('Build') {
+      steps {
+        container('maven') {
+          sh 'mvn -B -DskipTests clean package'
         }
       }
     }
+
 }
+
 ```
+
+Le code ci-dessus permet à Jenkins d'exécuter les étapes définies dans entre les balises **stages** à chaque activation d'un trigger (cela peut être un commit, un cron, une pull request...)
+
+### 2.2 : Connection à Jenkins
+Se connecter à Jenkins disponible à l'adresse suivante : http://65.52.64.111:8080/
+
+Les identifiants sont normalement créés pour tout le monde en respectant:
+* login : première lettre du prénom + nom de famille en minuscule
+* password : première lettre du prénom + nom de famille en minuscule
+
+> Ex Arthure Mauvezin --> amauvezin/amauvezin
+
+### 2.3 : Création d'un Multibranch Pipeline
+Jenkins apporte un type d'objet appelé Multibranch Pipeline. Cet objet permet à Jenkins de
+
+
