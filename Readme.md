@@ -1,5 +1,9 @@
 # TP 1 : CI/CD
 
+## Instruction
+Le TP s'appuie sur [un autre repo Github](https://github.com/cours-ece/simple-java-hello-world).
+Les réponses aux questions posées dans cet énoncé sont attendues dans un fichier **answers.md** situé dans le repo mentionné ci-dessus.
+
 ## Rappels
 ### Git
 * Repository
@@ -54,13 +58,13 @@ Faites attention au fait que tout est loggué depuis le début du projet. Vous p
 ### 1.? : WAAAAAAAAARPZOOOOOOOOOOONE
 Question Bonus: A l'aide de l'outil utilisé dans la question précédente, trouver la couleur de mon chat ?!! 
 
-> HELP : Si vous ne savez pas ou entrer la réponse, c'est que vous n'avez pas cherché assez loin ^^
+> Indice : Shakespeare peut aider !
 
 ### 1.6 : Lister les branches
 Lister les branches du repo
 
 Est-ce que toutes les branches vous paraissents normales ? 
-Y a t-il une branche qui retient votre attention ? Si oui, noter le nom de cette branche dans le fichier answers et se placer dessus (checkout).
+Y a t-il une branche qui retient votre attention ? Si oui, noter le nom de cette branche dans le fichier answers.md et se placer dessus (checkout).
 
 ### 1.7 : Créer une branche
 Créer une branche à partir de la branche trouvée ci-dessus. La branche à créer doit s'appeler "resolve/" suivi de la première lettre de votre prénom puis du nom de famille en minuscule.
@@ -68,19 +72,21 @@ Créer une branche à partir de la branche trouvée ci-dessus. La branche à cr�
 > Ex Arthur Mauvezin --> resolve/amauvezin
 
 ### 1.8 : Apporter votre pière à l'édifice
-Placez vous sur votre branche resolve/... (toujours checkout), puis répondre aux questions contenues dans le fichier enigma.
+Placez vous sur votre branche resolve/... (toujours checkout), puis répondre aux questions contenues dans le fichier enigma.md.
 Après avoir répondu, commiter les changements sur la branche resolve.
 
 ### 1.9 : Merger la branche
 Merger la branche "resolve/..." sur la branch master de votre repo, puis supprimer les branches "resolve/..." et la branche "étrange".
 
-Vous devez normalement avoir un fichier answers et un fichier enigma dans la branch master.
+Si le merge entraine un ou des conflits, les résoudre et terminer le merge.
+
+Vous devez normalement avoir un fichier answers.md et un fichier enigma dans la branch master.
 
 ### 1.10 : Pusher les changements
 Pusher tous vos changements sur votre repo.
 
 ### 1.11 : Gitflow
-Lister les branches présentes dans le repo. Au sens Gitflow, à quoi servent ces chacunes de ces branches ? Répondre dans le fichier answers.
+Lister les branches présentes dans le repo. Au sens Gitflow, à quoi servent ces chacunes de ces branches ? Répondre dans le fichier answers.md.
 
 ## 2 : CI/CD
 Dans cette deuxième partie du tp, vous devez utiliser le même repo que celui obtenu à la fin de la partie 1.
