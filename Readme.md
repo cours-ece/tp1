@@ -131,6 +131,7 @@ spec:
 """
     }
   }
+}
 
 
 // Configuration à modifier
@@ -157,7 +158,7 @@ Les identifiants sont normalement créés pour tout le monde en respectant:
 * login : première lettre du prénom + nom de famille en minuscule
 * password : première lettre du prénom + nom de famille en minuscule
 
-> Ex Arthure Mauvezin --> amauvezin/amauvezin
+> Ex Arthur Mauvezin --> amauvezin/amauvezin
 
 ### 2.3 : Point sur les outils
 Jenkins permet la définition des tâches à effectuer à travers l'intermédiaire de fichiers descripteur de pipelines d'execution appelés Jenkinsfile.
